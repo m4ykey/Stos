@@ -56,6 +56,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.coil3.network.okhttp)
             implementation(libs.androidx.browser)
+            implementation(libs.androidx.paging.runtime)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -83,10 +84,11 @@ kotlin {
             implementation(libs.sqlite.bundled)
             implementation(libs.bundles.markdown)
             implementation(libs.bundles.aboutlibraries)
-            implementation(libs.bundles.androidx.paging)
             implementation(libs.androidx.icons.extended)
             implementation(libs.bundles.compottie)
             implementation(libs.ktor.client.encoding)
+            implementation(libs.androidx.paging.compose)
+            implementation(libs.androidx.paging.common)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

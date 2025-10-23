@@ -8,6 +8,7 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = "kmp-stos",
+        alwaysOnTop = true
     ) {
         App()
     }
