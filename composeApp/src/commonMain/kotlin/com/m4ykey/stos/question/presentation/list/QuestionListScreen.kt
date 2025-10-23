@@ -1,0 +1,106 @@
+package com.m4ykey.stos.question.presentation.list
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.m4ykey.stos.core.views.BasePagingList
+import com.m4ykey.stos.question.domain.model.Question
+import com.m4ykey.stos.question.presentation.components.ChipList
+import com.m4ykey.stos.question.presentation.components.QuestionItem
+import org.koin.compose.viewmodel.koinViewModel
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun QuestionListScreen(
+    viewModel: QuestionListViewModel = koinViewModel()
+) {
+    val questions = viewModel.getQuestionsFlow().collectAsLazyPagingItems()
+    val viewState by viewModel.questionListState.collectAsStateWithLifecycle()
+    val sort by rememberUpdatedState(viewState.sort)
+
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val lazyListState = rememberSaveable(saver = LazyListState.Saver) {
+        LazyListState()
+    }
+
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopAppBar(
+                scrollBehavior = scrollBehavior,
+                title = {},
+                actions = {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            contentDescription = "Search",
+                            imageVector = Icons.Default.Search
+                        )
+                    }
+                }
+            )
+        }
+    ) { padding ->
+        QuestionListContent(
+            padding = padding,
+            listState = lazyListState,
+            questions = questions,
+            sort = sort
+        )
+    }
+}
+
+@Composable
+fun QuestionListContent(
+    listState : LazyListState,
+    sort : QuestionSort,
+    padding : PaddingValues,
+    questions : LazyPagingItems<Question>
+) {
+    Column(
+        modifier = Modifier
+            .padding(padding)
+            .fillMaxSize()
+    ) {
+        ChipList(
+            selectedChip = sort,
+            onChipSelected = { selectedSort ->
+
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        BasePagingList(
+            itemContent = { question ->
+                QuestionItem(
+                    question = question
+                )
+            },
+            items = questions,
+            modifier = Modifier.fillMaxWidth(),
+            listState = listState
+        )
+    }
+}
