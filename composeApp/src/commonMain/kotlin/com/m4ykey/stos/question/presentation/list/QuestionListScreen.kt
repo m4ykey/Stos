@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -32,6 +33,7 @@ import com.m4ykey.stos.question.presentation.components.ChipList
 import com.m4ykey.stos.question.presentation.components.QuestionItem
 import kmp_stos.composeapp.generated.resources.Res
 import kmp_stos.composeapp.generated.resources.search
+import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -47,6 +49,17 @@ fun QuestionListScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val lazyListState = rememberSaveable(saver = LazyListState.Saver) {
         LazyListState()
+    }
+
+    val currentOnAction by rememberUpdatedState(newValue = viewModel::onAction)
+
+    LaunchedEffect(Unit) {
+        viewModel.listUiEvent.collectLatest { event ->
+            when (event) {
+                is ListUiEvent.ChangeSort -> viewModel.updateSort(event.sort)
+                else -> null
+            }
+        }
     }
 
     Scaffold(
@@ -70,7 +83,8 @@ fun QuestionListScreen(
             padding = padding,
             listState = lazyListState,
             questions = questions,
-            sort = sort
+            sort = sort,
+            onAction = currentOnAction
         )
     }
 }
@@ -80,7 +94,8 @@ fun QuestionListContent(
     listState : LazyListState,
     sort : QuestionSort,
     padding : PaddingValues,
-    questions : LazyPagingItems<Question>
+    questions : LazyPagingItems<Question>,
+    onAction : (QuestionListAction) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -90,7 +105,7 @@ fun QuestionListContent(
         ChipList(
             selectedChip = sort,
             onChipSelected = { selectedSort ->
-
+                onAction(QuestionListAction.OnSortClick(selectedSort))
             },
             modifier = Modifier.fillMaxWidth()
         )
