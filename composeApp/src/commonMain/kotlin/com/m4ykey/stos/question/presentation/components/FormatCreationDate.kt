@@ -1,6 +1,12 @@
 package com.m4ykey.stos.question.presentation.components
 
 import androidx.compose.runtime.Composable
+import kmp_stos.composeapp.generated.resources.Res
+import kmp_stos.composeapp.generated.resources.days
+import kmp_stos.composeapp.generated.resources.hours
+import kmp_stos.composeapp.generated.resources.min
+import kmp_stos.composeapp.generated.resources.sec
+import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -19,9 +25,9 @@ fun formatCreationDate(date : Long) : String {
     val seconds = differenceInSeconds.inWholeSeconds % 60
 
     return when {
-        days > 0 -> "$days Days"
-        minutes > 0 -> "$minutes min"
-        hours > 0 -> "$hours h"
-        else -> "$seconds sec"
+        days > 0 -> "$days ${stringResource(Res.string.days)}"
+        minutes > 0 -> "$minutes ${stringResource(Res.string.min)}"
+        hours > 0 -> "$hours ${stringResource(Res.string.hours)}"
+        else -> "$seconds ${stringResource(Res.string.sec)}"
     }
 }

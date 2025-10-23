@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="no_internet_connection">Brak połączenia z internetem</string>
+    <string name="request_timed_out">Limit czasu żądania przekroczony</string>
+    <string name="server_problem">Problem z serwerem</string>
+    <string name="request_error">Błąd żądania</string>
+    <string name="failed_to_process_response">Nie udało się przetworzyć odpowiedzi</string>
+    <string name="too_many_requests">Zbyt wiele żądań</string>
+    <string name="unauthorized">Nieautoryzowany</string>
+    <string name="unknown_error">Nieznany błąd</string>
+    <string name="unresolved_string">Nierozwiązany ciąg znaków</string>
+
+    <string name="hot">Gorące</string>
+    <string name="activity">Aktywność</string>
+    <string name="votes">Głosy</string>
+    <string name="week">Tydzień</string>
+    <string name="month">Miesiąc</string>
+    <string name="creation">Utworzono</string>
+
+    <string name="min">min.</string>
+    <string name="days">dni</string>
+    <string name="sec">sek</string>
+    <string name="hours">godz.</string>
+
+    <string name="search">Szukaj</string>
+</resources>

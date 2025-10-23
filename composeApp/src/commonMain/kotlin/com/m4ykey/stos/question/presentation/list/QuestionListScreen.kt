@@ -30,6 +30,9 @@ import com.m4ykey.stos.core.views.BasePagingList
 import com.m4ykey.stos.question.domain.model.Question
 import com.m4ykey.stos.question.presentation.components.ChipList
 import com.m4ykey.stos.question.presentation.components.QuestionItem
+import kmp_stos.composeapp.generated.resources.Res
+import kmp_stos.composeapp.generated.resources.search
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,7 +58,7 @@ fun QuestionListScreen(
                 actions = {
                     IconButton(onClick = {}) {
                         Icon(
-                            contentDescription = "Search",
+                            contentDescription = stringResource(Res.string.search),
                             imageVector = Icons.Default.Search
                         )
                     }

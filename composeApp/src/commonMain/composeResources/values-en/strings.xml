@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="request_timed_out">Request timed out</string>
+    <string name="server_problem">Server problem</string>
+    <string name="request_error">Request error</string>
+    <string name="failed_to_process_response">Failed to process response</string>
+    <string name="too_many_requests">Too many requests</string>
+    <string name="unauthorized">Unauthorized</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="unresolved_string">Unresolved string</string>
+
+    <string name="hot">Hot</string>
+    <string name="activity">Activity</string>
+    <string name="votes">Votes</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="creation">Creation</string>
+
+    <string name="min">min.</string>
+    <string name="days">days</string>
+    <string name="sec">sec.</string>
+    <string name="hours">h</string>
+
+    <string name="search">Search</string>
+</resources>
