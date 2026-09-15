@@ -1,6 +1,6 @@
-package com.m4ykey.stos.question.service
+package com.m4ykey.stos.question.data.network.service
 
-import com.m4ykey.stos.question.dto.QuestionDto
+import com.m4ykey.stos.question.data.network.dto.QuestionDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
