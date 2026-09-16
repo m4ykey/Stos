@@ -47,6 +47,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.android)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -69,6 +70,12 @@ kotlin {
             implementation(libs.markdown.renderer.m3)
             implementation(libs.markdown.renderer.code)
             implementation(libs.markdown.renderer.coil3)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.serialization)
+            implementation(libs.ktor.client.logging)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

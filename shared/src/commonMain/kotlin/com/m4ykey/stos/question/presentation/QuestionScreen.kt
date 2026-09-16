@@ -9,6 +9,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.m4ykey.stos.question.presentation.component.QuestionItem
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import stos.shared.generated.resources.Res
@@ -19,7 +22,8 @@ import stos.shared.generated.resources.search
 fun QuestionScreen(
     modifier : Modifier = Modifier,
     onSearchClick : () -> Unit,
-    onQuestionClick : (Int) -> Unit
+    onQuestionClick : (Int) -> Unit,
+    viewModel: QuestionViewModel = viewModel()
 ) {
     Scaffold(
         topBar = {
@@ -35,7 +39,13 @@ fun QuestionScreen(
                 }
             )
         }
-    ) {  }
+    ) {
+        QuestionContent(
+            modifier = Modifier.fillMaxSize(),
+            viewModel = viewModel,
+            onQuestionClick = {}
+        )
+    }
 }
 
 @Composable
@@ -44,9 +54,18 @@ fun QuestionContent(
     onQuestionClick: (Int) -> Unit,
     viewModel: QuestionViewModel
 ) {
+
+    val questions = viewModel.questions.collectAsLazyPagingItems()
+
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        LazyColumn() {  }
+        LazyColumn() {
+            items(count = questions.itemCount) { index ->
+                questions[index]?.let { question ->
+                    QuestionItem(item = question)
+                }
+            }
+        }
     }
 }
