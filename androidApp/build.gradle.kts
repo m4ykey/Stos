@@ -1,6 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.io.FileInputStream
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -16,6 +14,8 @@ dependencies {
     implementation(project(":shared"))
 
     implementation(libs.androidx.activity.compose)
+
+    implementation(libs.koin.android)
 
     implementation(libs.compose.uiToolingPreview)
 

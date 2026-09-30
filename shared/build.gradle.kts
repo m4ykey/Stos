@@ -58,10 +58,19 @@ kotlin {
             implementation(libs.androidx.navigation3.ui)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.cio)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.json)
             implementation(libs.androidx.paging.compose)
             implementation(libs.androidx.paging.common)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.okhttp)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+        }
+        jvmMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
