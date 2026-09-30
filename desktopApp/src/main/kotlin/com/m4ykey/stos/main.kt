@@ -20,7 +20,6 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = "Stos",
-        alwaysOnTop = true,
         resizable = true,
         state = windowState
     ) {

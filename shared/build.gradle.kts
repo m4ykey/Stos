@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.buildkonfig)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 val localProperties = Properties().apply {
