@@ -2,6 +2,7 @@ package com.m4ykey.stos.core.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import kotlin.coroutines.cancellation.CancellationException
 
 abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
 
@@ -13,19 +14,20 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
             val result = loadData(page, pageSize)
 
             result.fold(
-                onSuccess = { data ->
-                    val isLastPage = data.size < pageSize
-
+                onSuccess = { pageResult ->
                     LoadResult.Page(
-                        data = data,
-                        nextKey = if (isLastPage) null else page + 1,
+                        data = pageResult.items,
+                        nextKey = if (pageResult.hasMore) page + 1 else null,
                         prevKey = if (page == 1) null else page - 1
                     )
                 },
                 onFailure = { exception ->
+                    if (exception is CancellationException) throw exception
                     LoadResult.Error(exception)
                 }
             )
+        } catch (e : CancellationException) {
+            throw e
         } catch (e : Exception) {
             LoadResult.Error(e)
         }
@@ -38,6 +40,6 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
         }
     }
 
-    protected abstract suspend fun loadData(page : Int, pageSize : Int) : Result<List<Value>>
+    protected abstract suspend fun loadData(page : Int, pageSize : Int) : Result<PageResult<Value>>
 
 }

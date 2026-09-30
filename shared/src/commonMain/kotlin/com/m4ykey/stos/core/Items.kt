@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Items<T>(
-    val items : List<T>
+    val items : List<T>,
+    val has_more: Boolean = false
 )

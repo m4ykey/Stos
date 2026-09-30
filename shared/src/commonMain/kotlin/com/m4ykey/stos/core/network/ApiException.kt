@@ -2,8 +2,9 @@ package com.m4ykey.stos.core.network
 
 sealed class ApiException(
     val error : String,
-    val statusCode : Int? = null
-) : Exception("Unresolved string") {
+    val statusCode : Int? = null,
+    cause : Throwable? = null
+) : Exception(error, cause) {
 
     class NoConnection(
         error : String = "No internet connection"
@@ -21,7 +22,7 @@ sealed class ApiException(
     class ClientError(
         code: Int,
         error : String = "Request error"
-    ) : ApiException(error)
+    ) : ApiException(error, code)
 
     class ParseError(
         error : String = "Failed to process response"
@@ -36,7 +37,8 @@ sealed class ApiException(
     ) : ApiException(error, 401)
 
     class UnknownError(
-        error : String = "Unknown error"
-    ) : ApiException(error)
+        error : String = "Unknown error",
+        cause : Throwable? = null
+    ) : ApiException(error, cause = cause)
 
 }

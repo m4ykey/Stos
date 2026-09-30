@@ -4,7 +4,7 @@ import io.ktor.network.sockets.SocketTimeoutException
 import io.ktor.util.network.UnresolvedAddressException
 import io.ktor.utils.io.CancellationException
 
-suspend inline fun <T> SafeApi(crossinline api : suspend () -> T) : ApiResult<T> {
+suspend inline fun <T> safeApi(crossinline api : suspend () -> T) : ApiResult<T> {
     return try {
         val response = api()
         processApiResponse(response, 200)
@@ -15,6 +15,6 @@ suspend inline fun <T> SafeApi(crossinline api : suspend () -> T) : ApiResult<T>
     } catch (e : CancellationException) {
         throw e
     } catch (e : Exception) {
-        ApiResult.Failure(ApiException.UnknownError())
+        ApiResult.Failure(ApiException.UnknownError(cause = e))
     }
 }

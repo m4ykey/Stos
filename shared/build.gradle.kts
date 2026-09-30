@@ -1,22 +1,30 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.buildkonfig)
+}
+
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) load(FileInputStream(file))
 }
 
 kotlin {
     jvm()
-    
+
     android {
        namespace = "com.m4ykey.stos.shared"
        compileSdk = libs.versions.android.compileSdk.get().toInt()
        minSdk = libs.versions.android.minSdk.get().toInt()
-    
+
        compilerOptions {
-           jvmTarget = JvmTarget.JVM_21
+           jvmTarget = JvmTarget.JVM_25
        }
        androidResources {
            enable = true
@@ -30,7 +38,7 @@ kotlin {
            instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
        }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
@@ -51,7 +59,9 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.cio)
             implementation(libs.androidx.paging.compose)
-            implementation(libs.androidx.paging.runtime)
+            implementation(libs.androidx.paging.common)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.okhttp)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -61,4 +71,18 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
+}
+
+buildkonfig {
+    packageName = "com.m4ykey.stos.shared"
+
+    defaultConfigs {
+        buildConfigField(
+            type = com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
+            name = "API_KEY",
+            value = localProperties.getProperty("k")
+                ?: System.getenv("k")
+                ?: ""
+        )
+    }
 }
