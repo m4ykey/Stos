@@ -69,6 +69,10 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.markdown.renderer.m3)
+            implementation(libs.markdown.renderer.code)
+            implementation(libs.markdown.renderer.coil3)
+            implementation(libs.markdown.renderer)
         }
         jvmMain.dependencies {
             implementation(libs.ktor.client.okhttp)

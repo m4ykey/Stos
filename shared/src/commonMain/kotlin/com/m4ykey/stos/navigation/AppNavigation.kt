@@ -47,7 +47,9 @@ fun AppNavigation(modifier : Modifier = Modifier) {
         entryProvider = entryProvider {
             entry<Route.QuestionHome> {
                 QuestionHomeScreen(
-                    onSearchClick = {}
+                    onSearchClick = {},
+                    onOwnerClick = {},
+                    onQuestionClick = {}
                 )
             }
         }

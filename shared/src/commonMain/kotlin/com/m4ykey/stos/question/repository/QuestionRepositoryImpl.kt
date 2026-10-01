@@ -13,11 +13,11 @@ class QuestionRepositoryImpl(
     private val service : RemoteQuestionService
 ) : QuestionRepository {
 
-    override fun getQuestions(): Flow<PagingData<QuestionItem>> {
+    override fun getQuestions(sort : String): Flow<PagingData<QuestionItem>> {
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = {
-                QuestionPagingSource(service)
+                QuestionPagingSource(service, sort = sort)
             }
         ).flow
     }

@@ -1,8 +1,7 @@
 package com.m4ykey.stos
 
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -12,8 +11,8 @@ import com.m4ykey.stos.navigation.AppNavigation
 @Preview
 fun App() {
     MaterialTheme {
-        Scaffold { innerPadding ->
-            AppNavigation(modifier = Modifier.padding(innerPadding))
-        }
+        AppNavigation(
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }

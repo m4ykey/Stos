@@ -1,6 +1,7 @@
 package com.m4ykey.stos.question.presentation.state
 
+import com.m4ykey.stos.question.domain.model.QuestionSort
+
 data class QuestionStateFlow(
-    val isLoading : Boolean = false,
-    val error : String? = null
+    val sort : QuestionSort = QuestionSort.HOT
 )
