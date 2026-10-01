@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.m4ykey.stos.question.domain.model.QuestionItem
+import com.m4ykey.stos.text_markdown.TextMarkdown
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
@@ -52,9 +53,10 @@ fun QuestionItem(
             }
             Spacer(modifier = modifier.width(10.dp))
             Column {
-                Text(
+                TextMarkdown(
                     text = item.owner.displayName,
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    alignment = Alignment.TopStart
                 )
                 Text(
                     text = item.owner.reputation.toString(),
@@ -62,7 +64,10 @@ fun QuestionItem(
                 )
             }
         }
-        Text(item.title)
+        TextMarkdown(
+            alignment = Alignment.TopStart,
+            text = item.title
+        )
         Row(
             modifier = modifier.fillMaxWidth()
         ) {  }

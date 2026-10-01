@@ -73,6 +73,8 @@ kotlin {
             implementation(libs.markdown.renderer.code)
             implementation(libs.markdown.renderer.coil3)
             implementation(libs.markdown.renderer)
+            implementation(libs.ksoup)
+            implementation(libs.ksoup.entities)
         }
         jvmMain.dependencies {
             implementation(libs.ktor.client.okhttp)
