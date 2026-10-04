@@ -1,4 +1,4 @@
-package com.m4ykey.stos.question.network.paging
+package com.m4ykey.stos.search.network.paging
 
 import com.m4ykey.stos.core.network.ApiResult
 import com.m4ykey.stos.core.network.safeApi
@@ -6,11 +6,11 @@ import com.m4ykey.stos.core.paging.BasePagingSource
 import com.m4ykey.stos.core.paging.PageResult
 import com.m4ykey.stos.question.domain.model.QuestionItem
 import com.m4ykey.stos.question.mapper.toQuestionItem
-import com.m4ykey.stos.question.network.service.RemoteQuestionService
+import com.m4ykey.stos.search.network.service.RemoteSearchService
 
-class QuestionPagingSource(
-    private val service : RemoteQuestionService,
-    private val sort : String
+class SearchPagingSource(
+    private val service : RemoteSearchService,
+    private val inTitle : String
 ) : BasePagingSource<QuestionItem>() {
 
     override suspend fun loadData(
@@ -18,7 +18,7 @@ class QuestionPagingSource(
         pageSize: Int
     ): Result<PageResult<QuestionItem>> {
         return safeApi {
-            service.getQuestions(page = page, pageSize = pageSize, sort = sort)
+            service.searchQuestions(page = page, pageSize = pageSize, inTitle = inTitle)
         }.run {
             when (this) {
                 is ApiResult.Failure -> Result.failure(exception)

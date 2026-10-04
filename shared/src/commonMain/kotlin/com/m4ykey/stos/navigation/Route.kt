@@ -12,4 +12,7 @@ sealed interface Route : NavKey {
     @Serializable
     data object SearchScreen : Route
 
+    @Serializable
+    data class SearchList(val inTitle : String) : Route
+
 }
