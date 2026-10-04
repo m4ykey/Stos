@@ -1,10 +1,21 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import java.util.Properties
+import kotlin.apply
+import kotlin.toString
 
 plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
 }
+
+val versionProperties = Properties().apply {
+    load(rootProject.file("version.properties").inputStream())
+}
+
+val versionMajor = versionProperties["versionMajor"].toString().toInt()
+val versionMinor = versionProperties["versionMinor"].toString().toInt()
+val versionPatch = versionProperties["versionPatch"].toString().toInt()
 
 dependencies {
     implementation(project(":shared"))
@@ -22,7 +33,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.m4ykey.stos"
-            packageVersion = "1.0.0"
+            packageVersion = "$versionMajor.$versionMinor.$versionPatch"
         }
     }
 }

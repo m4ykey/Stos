@@ -1,9 +1,18 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeCompiler)
 }
+
+val versionProperties = Properties().apply {
+    load(rootProject.file("version.properties").inputStream())
+}
+
+val versionMajor = versionProperties["versionMajor"].toString().toInt()
+val versionMinor = versionProperties["versionMinor"].toString().toInt()
+val versionPatch = versionProperties["versionPatch"].toString().toInt()
 
 kotlin {
     compilerOptions {
@@ -31,8 +40,8 @@ android {
         applicationId = "com.m4ykey.stos"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100
+        versionName = "$versionMajor.$versionMinor.$versionPatch"
     }
     packaging {
         resources {

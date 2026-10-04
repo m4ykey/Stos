@@ -1,4 +1,4 @@
-package com.m4ykey.stos.text_markdown
+package com.m4ykey.text_markdown
 
 import com.mohamedrejeb.ksoup.entities.KsoupEntities
 import com.mohamedrejeb.ksoup.html.parser.KsoupHtmlHandler

@@ -47,6 +47,8 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
+            implementation(project(":text-markdown"))
+
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)
@@ -69,12 +71,6 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-            implementation(libs.markdown.renderer.m3)
-            implementation(libs.markdown.renderer.code)
-            implementation(libs.markdown.renderer.coil3)
-            implementation(libs.markdown.renderer)
-            implementation(libs.ksoup)
-            implementation(libs.ksoup.entities)
             implementation(libs.lifecycle.viewmodel.navigation3)
             implementation(libs.kotlinx.datetime)
         }

@@ -26,7 +26,7 @@ import coil3.compose.AsyncImage
 import com.m4ykey.stos.core.formatCreationDate
 import com.m4ykey.stos.core.formatReputation
 import com.m4ykey.stos.question.domain.model.QuestionItem
-import com.m4ykey.stos.text_markdown.TextMarkdown
+import com.m4ykey.text_markdown.TextMarkdown
 import org.jetbrains.compose.resources.painterResource
 import stos.shared.generated.resources.Res
 import stos.shared.generated.resources.ic_arrow_down

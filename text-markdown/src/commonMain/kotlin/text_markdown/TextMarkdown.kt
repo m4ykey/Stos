@@ -1,4 +1,4 @@
-package com.m4ykey.stos.text_markdown
+package com.m4ykey.text_markdown
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
