@@ -8,7 +8,7 @@ interface RemoteSearchService {
 
     suspend fun searchQuestions(
         order : String = "desc",
-        sort : String = "activity",
+        sort : String,
         site : String = "stackoverflow",
         filter : String = QUESTION_HOME_FILTER,
         page : Int,

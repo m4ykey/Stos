@@ -35,7 +35,9 @@ fun AppNavigation(modifier : Modifier = Modifier) {
     )
 
     fun navigateTo(route : Route) {
-        rootBackStack.add(route)
+        if (rootBackStack.lastOrNull() != route) {
+            rootBackStack.add(route)
+        }
     }
 
     fun navigateBack() {
@@ -82,7 +84,9 @@ fun AppNavigation(modifier : Modifier = Modifier) {
                     onBack = {
                         navigateBack()
                     },
-                    inTitle = key.inTitle
+                    inTitle = key.inTitle,
+                    onOwnerClick = {},
+                    onQuestionClick = {}
                 )
             }
         }

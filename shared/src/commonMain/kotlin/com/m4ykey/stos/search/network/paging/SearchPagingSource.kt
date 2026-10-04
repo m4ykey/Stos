@@ -10,7 +10,8 @@ import com.m4ykey.stos.search.network.service.RemoteSearchService
 
 class SearchPagingSource(
     private val service : RemoteSearchService,
-    private val inTitle : String
+    private val inTitle : String,
+    private val sort : String
 ) : BasePagingSource<QuestionItem>() {
 
     override suspend fun loadData(
@@ -18,7 +19,7 @@ class SearchPagingSource(
         pageSize: Int
     ): Result<PageResult<QuestionItem>> {
         return safeApi {
-            service.searchQuestions(page = page, pageSize = pageSize, inTitle = inTitle)
+            service.searchQuestions(page = page, pageSize = pageSize, inTitle = inTitle, sort = sort)
         }.run {
             when (this) {
                 is ApiResult.Failure -> Result.failure(exception)

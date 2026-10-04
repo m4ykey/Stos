@@ -11,17 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.m4ykey.stos.question.domain.model.QuestionSort
+import com.m4ykey.stos.core.SortOption
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import stos.shared.generated.resources.Res
-import stos.shared.generated.resources.activity
-import stos.shared.generated.resources.creation
-import stos.shared.generated.resources.hot
 import stos.shared.generated.resources.ic_check
-import stos.shared.generated.resources.month
-import stos.shared.generated.resources.votes
-import stos.shared.generated.resources.week
 
 @Composable
 fun ChipItem(
@@ -48,37 +42,20 @@ fun ChipItem(
 }
 
 @Composable
-fun ChipList(
+fun <T: SortOption> ChipList(
     modifier : Modifier = Modifier,
-    selectedChip : QuestionSort,
-    onChipSelected : (QuestionSort) -> Unit,
-    availableSorts : List<QuestionSort>
+    selectedChip : T,
+    onChipSelected : (T) -> Unit,
+    availableSorts : List<T>
 ) {
-    LazyRow(modifier = Modifier.padding(horizontal = 5.dp)) {
+    LazyRow(modifier = modifier.padding(horizontal = 5.dp)) {
         items(availableSorts) { key ->
-            val label = key.getLabel()
-
             ChipItem(
-                title = label,
+                title = stringResource(key.labelRes),
                 selected = selectedChip == key,
-                onSelect = {
-                    if (availableSorts.contains(key))
-                        onChipSelected(key)
-                },
+                onSelect = { onChipSelected(key) },
                 modifier = Modifier.padding(horizontal = 5.dp)
             )
         }
-    }
-}
-
-@Composable
-private fun QuestionSort.getLabel() : String {
-    return when (this) {
-        QuestionSort.HOT -> stringResource(Res.string.hot)
-        QuestionSort.ACTIVITY -> stringResource(Res.string.activity)
-        QuestionSort.VOTES -> stringResource(Res.string.votes)
-        QuestionSort.CREATION -> stringResource(Res.string.creation)
-        QuestionSort.WEEK -> stringResource(Res.string.week)
-        QuestionSort.MONTH -> stringResource(Res.string.month)
     }
 }

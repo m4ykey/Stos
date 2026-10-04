@@ -1,6 +1,6 @@
 package com.m4ykey.stos.search.di
 
-import com.m4ykey.stos.search.domain.SearchRepository
+import com.m4ykey.stos.search.domain.repository.SearchRepository
 import com.m4ykey.stos.search.network.service.RemoteSearchService
 import com.m4ykey.stos.search.network.service.SearchService
 import com.m4ykey.stos.search.presentation.SearchViewModel

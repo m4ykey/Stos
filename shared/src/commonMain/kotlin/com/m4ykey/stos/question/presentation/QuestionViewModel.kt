@@ -9,7 +9,7 @@ import androidx.paging.cachedIn
 import com.m4ykey.stos.question.domain.model.QuestionItem
 import com.m4ykey.stos.question.domain.model.QuestionSort
 import com.m4ykey.stos.question.domain.repository.QuestionRepository
-import com.m4ykey.stos.question.presentation.state.QuestionStateFlow
+import com.m4ykey.stos.question.presentation.state.QuestionState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,7 @@ class QuestionViewModel(
     private val repository : QuestionRepository
 ) : ViewModel() {
 
-    private val _questionState = MutableStateFlow(QuestionStateFlow())
+    private val _questionState = MutableStateFlow(QuestionState())
     val questionState = _questionState.asStateFlow()
 
     private val questionFlow : Flow<PagingData<QuestionItem>> = _questionState
@@ -39,5 +39,4 @@ class QuestionViewModel(
     fun updateSort(sort : QuestionSort) {
         _questionState.update { it.copy(sort = sort) }
     }
-
 }
