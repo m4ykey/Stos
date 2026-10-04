@@ -13,6 +13,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
 import com.m4ykey.stos.question.presentation.QuestionHomeScreen
+import com.m4ykey.stos.search.presentation.SearchScreen
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -24,11 +25,22 @@ fun AppNavigation(modifier : Modifier = Modifier) {
             serializersModule = SerializersModule {
                 polymorphic(NavKey::class) {
                     subclass(Route.QuestionHome::class, Route.QuestionHome.serializer())
+                    subclass(Route.SearchScreen::class, Route.SearchScreen.serializer())
                 }
             }
         },
         Route.QuestionHome
     )
+
+    fun navigateTo(route : Route) {
+        rootBackStack.add(route)
+    }
+
+    fun navigateBack() {
+        if (rootBackStack.size > 1) {
+            rootBackStack.removeAt(rootBackStack.lastIndex)
+        }
+    }
 
     NavDisplay(
         backStack = rootBackStack,
@@ -48,9 +60,18 @@ fun AppNavigation(modifier : Modifier = Modifier) {
         entryProvider = entryProvider {
             entry<Route.QuestionHome> {
                 QuestionHomeScreen(
-                    onSearchClick = {},
+                    onSearchClick = {
+                        navigateTo(Route.SearchScreen)
+                    },
                     onOwnerClick = {},
                     onQuestionClick = {}
+                )
+            }
+            entry<Route.SearchScreen> {
+                SearchScreen(
+                    onBack = {
+                        navigateBack()
+                    }
                 )
             }
         }

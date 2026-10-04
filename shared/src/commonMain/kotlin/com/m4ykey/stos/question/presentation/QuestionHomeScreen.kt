@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalMaterial3ExpressiveApi::class)
+
 package com.m4ykey.stos.question.presentation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,13 +14,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.ContainedLoadingIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +36,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
@@ -34,16 +44,19 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
+import com.m4ykey.stos.core.paging.PagingAppendState
 import com.m4ykey.stos.core.ui.AppScaffold
 import com.m4ykey.stos.question.domain.model.QuestionSort
 import com.m4ykey.stos.question.presentation.components.ChipList
 import com.m4ykey.stos.question.presentation.components.QuestionItem
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import stos.shared.generated.resources.Res
 import stos.shared.generated.resources.ic_arrow_up
 import stos.shared.generated.resources.ic_search
+import stos.shared.generated.resources.retry
 
 @Composable
 fun QuestionHomeScreen(
@@ -118,25 +131,21 @@ fun QuestionContent(
     listState : LazyListState,
     availableSorts : List<QuestionSort> = QuestionSort.entries
 ) {
-    val questions = viewModel.getQuestions().collectAsLazyPagingItems()
+    val items = viewModel.getQuestions().collectAsLazyPagingItems()
     val viewState by viewModel.questionState.collectAsStateWithLifecycle()
     val sort = viewState.sort
 
     var shouldScrollAfterRefresh by remember { mutableStateOf(false) }
 
-    LaunchedEffect(questions.loadState.refresh) {
-        if (shouldScrollAfterRefresh && questions.loadState.refresh is LoadState.NotLoading) {
+    LaunchedEffect(items.loadState.refresh) {
+        if (shouldScrollAfterRefresh && items.loadState.refresh is LoadState.NotLoading) {
             shouldScrollAfterRefresh = false
             listState.animateScrollToItem(0)
         }
     }
 
-    Column(
-        modifier = modifier.fillMaxSize()
-    ) {
-        Row(
-            modifier = modifier.fillMaxWidth()
-        ) {
+    Column(modifier = modifier.fillMaxSize()) {
+        Row(modifier = modifier.fillMaxWidth()) {
             ChipList(
                 modifier = Modifier.fillMaxWidth(),
                 availableSorts = availableSorts,
@@ -148,23 +157,55 @@ fun QuestionContent(
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
-        LazyColumn(
-            contentPadding = PaddingValues(horizontal = 10.dp),
-            state = listState,
-            verticalArrangement = Arrangement.spacedBy(15.dp)
-        ) {
-            items(
-                count = questions.itemCount,
-                key = questions.itemKey { it.questionId }
-            ) { index ->
-                val question = questions[index]
 
-                question?.let { item ->
-                    QuestionItem(
-                        onOwnerClick = onOwnerClick,
-                        onQuestionClick = onQuestionClick,
-                        item = item
+        when (val loadState = items.loadState.refresh) {
+            is LoadState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    ContainedLoadingIndicator()
+                }
+            }
+            is LoadState.Error -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = loadState.error.message ?: "Loading error",
+                        style = MaterialTheme.typography.bodySmall
                     )
+                    TextButton(onClick = { items.retry() }) {
+                        Text(text = stringResource(Res.string.retry))
+                    }
+                }
+            }
+            is LoadState.NotLoading -> {
+                LazyColumn(
+                    contentPadding = PaddingValues(horizontal = 10.dp),
+                    state = listState,
+                    verticalArrangement = Arrangement.spacedBy(15.dp)
+                ) {
+                    items(
+                        count = items.itemCount,
+                        key = items.itemKey { it.questionId }
+                    ) { index ->
+                        val question = items[index]
+
+                        question?.let { item ->
+                            QuestionItem(
+                                onOwnerClick = onOwnerClick,
+                                onQuestionClick = onQuestionClick,
+                                item = item
+                            )
+                        }
+                    }
+                    item {
+                        PagingAppendState(items = items)
+                    }
                 }
             }
         }

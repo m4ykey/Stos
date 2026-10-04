@@ -28,17 +28,13 @@ class QuestionViewModel(
     private val _questionState = MutableStateFlow(QuestionStateFlow())
     val questionState = _questionState.asStateFlow()
 
-    private val questionFlow = _questionState
-        .map { it.sort }.distinctUntilChanged()
+    private val questionFlow : Flow<PagingData<QuestionItem>> = _questionState
+        .map { it.sort }
+        .distinctUntilChanged()
         .flatMapLatest { sort ->
             repository.getQuestions(sort = sort.name)
-                .cachedIn(viewModelScope)
         }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = PagingData.empty()
-        )
+        .cachedIn(viewModelScope)
 
     fun getQuestions() : Flow<PagingData<QuestionItem>> = questionFlow
 

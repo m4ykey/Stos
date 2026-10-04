@@ -9,4 +9,7 @@ sealed interface Route : NavKey {
     @Serializable
     data object QuestionHome : Route
 
+    @Serializable
+    data object SearchScreen : Route
+
 }
