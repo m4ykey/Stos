@@ -1,5 +1,8 @@
 package com.m4ykey.stos.question.presentation
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,14 +15,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -32,9 +38,11 @@ import com.m4ykey.stos.core.ui.AppScaffold
 import com.m4ykey.stos.question.domain.model.QuestionSort
 import com.m4ykey.stos.question.presentation.components.ChipList
 import com.m4ykey.stos.question.presentation.components.QuestionItem
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import stos.shared.generated.resources.Res
+import stos.shared.generated.resources.ic_arrow_up
 import stos.shared.generated.resources.ic_search
 
 @Composable
@@ -48,16 +56,45 @@ fun QuestionHomeScreen(
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+
+    val showScrollByPosition by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex > 20
+        }
+    }
 
     AppScaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         scrollBehavior = scrollBehavior,
+        floatingActionButton = {
+            AnimatedVisibility(
+                visible = showScrollByPosition,
+                enter = slideInHorizontally { it },
+                exit = slideOutHorizontally { it }
+            ) {
+                FloatingActionButton(
+                    onClick = {
+                        coroutineScope.launch {
+                            listState.animateScrollToItem(0)
+                        }
+                    },
+                    content = {
+                        Icon(
+                            contentDescription = null,
+                            painter = painterResource(Res.drawable.ic_arrow_up),
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                )
+            }
+        },
         actions = {
             IconButton(onClick = onSearchClick) {
                 Icon(
                     contentDescription = null,
                     painter = painterResource(Res.drawable.ic_search),
-                    modifier = modifier.size(24.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
         },

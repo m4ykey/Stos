@@ -75,6 +75,8 @@ kotlin {
             implementation(libs.markdown.renderer)
             implementation(libs.ksoup)
             implementation(libs.ksoup.entities)
+            implementation(libs.lifecycle.viewmodel.navigation3)
+            implementation(libs.kotlinx.datetime)
         }
         jvmMain.dependencies {
             implementation(libs.ktor.client.okhttp)

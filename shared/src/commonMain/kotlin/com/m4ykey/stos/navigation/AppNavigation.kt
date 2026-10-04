@@ -5,6 +5,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -34,7 +35,7 @@ fun AppNavigation(modifier : Modifier = Modifier) {
         modifier = modifier,
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
-            //rememberViewModelStoreNavEntryDecorator()
+            rememberViewModelStoreNavEntryDecorator()
         ),
         transitionSpec = {
             slideInHorizontally { it } togetherWith

@@ -21,7 +21,8 @@ fun AppScaffold(
     content : @Composable (PaddingValues) -> Unit,
     actions : @Composable RowScope.() -> Unit = {},
     navigation : @Composable () -> Unit = {},
-    scrollBehavior : TopAppBarScrollBehavior? = null
+    scrollBehavior : TopAppBarScrollBehavior? = null,
+    floatingActionButton : @Composable () -> Unit = {}
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets.safeDrawing,
@@ -33,7 +34,8 @@ fun AppScaffold(
                 navigationIcon = { navigation() },
                 scrollBehavior = scrollBehavior
             )
-        }
+        },
+        floatingActionButton = floatingActionButton
     ) { paddingValues ->
         Box(
             modifier = Modifier
