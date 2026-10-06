@@ -1,7 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import java.util.Properties
-import kotlin.apply
-import kotlin.toString
 
 plugins {
     alias(libs.plugins.kotlinJvm)

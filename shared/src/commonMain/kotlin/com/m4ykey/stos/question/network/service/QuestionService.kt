@@ -1,6 +1,7 @@
 package com.m4ykey.stos.question.network.service
 
 import com.m4ykey.stos.core.Items
+import com.m4ykey.stos.question.network.model.QuestionDetailDto
 import com.m4ykey.stos.question.network.model.QuestionItemDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -27,6 +28,20 @@ class QuestionService(private val client : HttpClient) : RemoteQuestionService {
                 parameter("filter", filter)
                 parameter("page", page)
                 parameter("page_size", pageSize)
+            }
+        }.body()
+    }
+
+    override suspend fun getQuestionById(
+        site: String,
+        id: Int,
+        filter : String
+    ): Items<QuestionDetailDto> {
+        return client.get {
+            url {
+                appendPathSegments("questions/$id")
+                parameter("site", site)
+                parameter("filter", filter)
             }
         }.body()
     }

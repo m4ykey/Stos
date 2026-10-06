@@ -12,6 +12,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.savedstate.serialization.SavedStateConfiguration
+import com.m4ykey.stos.question.presentation.QuestionDetailScreen
 import com.m4ykey.stos.question.presentation.QuestionHomeScreen
 import com.m4ykey.stos.search.presentation.SearchListScreen
 import com.m4ykey.stos.search.presentation.SearchScreen
@@ -28,6 +29,7 @@ fun AppNavigation(modifier : Modifier = Modifier) {
                     subclass(Route.QuestionHome::class, Route.QuestionHome.serializer())
                     subclass(Route.SearchScreen::class, Route.SearchScreen.serializer())
                     subclass(Route.SearchList::class, Route.SearchList.serializer())
+                    subclass(Route.QuestionDetail::class, Route.QuestionDetail.serializer())
                 }
             }
         },
@@ -68,7 +70,9 @@ fun AppNavigation(modifier : Modifier = Modifier) {
                         navigateTo(Route.SearchScreen)
                     },
                     onOwnerClick = {},
-                    onQuestionClick = {}
+                    onQuestionClick = { key ->
+                        navigateTo(Route.QuestionDetail(key))
+                    }
                 )
             }
             entry<Route.SearchScreen> {
@@ -86,7 +90,15 @@ fun AppNavigation(modifier : Modifier = Modifier) {
                     },
                     inTitle = key.inTitle,
                     onOwnerClick = {},
-                    onQuestionClick = {}
+                    onQuestionClick = { questionId ->
+                        navigateTo(Route.QuestionDetail(questionId))
+                    }
+                )
+            }
+            entry<Route.QuestionDetail> { key ->
+                QuestionDetailScreen(
+                    onBack = { navigateBack() },
+                    questionId = key.questionId
                 )
             }
         }

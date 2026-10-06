@@ -2,10 +2,30 @@ package com.m4ykey.stos.question.mapper
 
 import com.m4ykey.stos.question.domain.model.BadgeCounts
 import com.m4ykey.stos.question.domain.model.Owner
+import com.m4ykey.stos.question.domain.model.QuestionDetail
 import com.m4ykey.stos.question.domain.model.QuestionItem
 import com.m4ykey.stos.question.network.model.BadgeCountsDto
 import com.m4ykey.stos.question.network.model.OwnerDto
+import com.m4ykey.stos.question.network.model.QuestionDetailDto
 import com.m4ykey.stos.question.network.model.QuestionItemDto
+
+fun QuestionDetailDto.toQuestionDetail() : QuestionDetail {
+    return QuestionDetail(
+        answerCount = answerCount ?: 0,
+        title = title.orEmpty(),
+        bodyMarkdown = bodyMarkdown.orEmpty(),
+        commentCount = commentCount ?: 0,
+        link = link.orEmpty(),
+        viewCount = viewCount ?: 0,
+        upVoteCount = upVoteCount ?: 0,
+        questionId = questionId ?: 0,
+        downVoteCount = downVoteCount ?: 0,
+        creationDate = creationDate ?: 0,
+        lastActivityDate = lastActivityDate ?: 0,
+        owner = owner?.toOwner() ?: Owner.EMPTY,
+        tags = tags ?: emptyList()
+    )
+}
 
 fun BadgeCountsDto.toBadgeCounts() : BadgeCounts {
     return BadgeCounts(
@@ -17,27 +37,27 @@ fun BadgeCountsDto.toBadgeCounts() : BadgeCounts {
 
 fun OwnerDto.toOwner() : Owner {
     return Owner(
-        displayName = display_name.orEmpty(),
+        displayName = displayName.orEmpty(),
         link = link.orEmpty(),
-        profileImage = profile_image.orEmpty(),
+        profileImage = profileImage.orEmpty(),
         reputation = reputation ?: 0,
-        userId = user_id ?: 0,
-        badgeCounts = badge_counts?.toBadgeCounts() ?: BadgeCounts.EMPTY
+        userId = userId ?: 0,
+        badgeCounts = badgeCounts?.toBadgeCounts() ?: BadgeCounts.EMPTY
     )
 }
 
 fun QuestionItemDto.toQuestionItem() : QuestionItem {
     return QuestionItem(
-        bodyMarkdown = body_markdown.orEmpty(),
-        creationDate = creation_date ?: 0,
+        bodyMarkdown = bodyMarkdown.orEmpty(),
+        creationDate = creationDate ?: 0,
         title = title.orEmpty(),
-        viewCount = view_count ?: 0,
-        upVoteCount = up_vote_count ?: 0,
-        downVoteCount = down_vote_count ?: 0,
-        questionId = question_id ?: 0,
-        closedDate = closed_date ?: 0,
-        closedReason = closed_reason.orEmpty(),
-        answerCount = answer_count ?: 0,
+        viewCount = viewCount ?: 0,
+        upVoteCount = upVoteCount ?: 0,
+        downVoteCount = downVoteCount ?: 0,
+        questionId = questionId ?: 0,
+        closedDate = closedDate ?: 0,
+        closedReason = closedReason.orEmpty(),
+        answerCount = answerCount ?: 0,
         owner = owner?.toOwner() ?: Owner.EMPTY
     )
 }

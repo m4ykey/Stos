@@ -1,13 +1,14 @@
 package com.m4ykey.stos.question.network.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class OwnerDto(
-    val badge_counts: BadgeCountsDto? = null,
-    val display_name: String? = null,
+    @SerialName("badge_counts") val badgeCounts: BadgeCountsDto? = null,
+    @SerialName("display_name") val displayName: String? = null,
     val link: String? = null,
-    val profile_image: String? = null,
+    @SerialName("profile_image") val profileImage: String? = null,
     val reputation: Int? = null,
-    val user_id: Int? = null
+    @SerialName("user_id") val userId: Int? = null
 )

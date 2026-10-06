@@ -15,11 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,6 +35,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.m4ykey.stos.core.paging.PagingAppendState
+import com.m4ykey.stos.core.ui.ActionButton
 import com.m4ykey.stos.core.ui.AppScaffold
 import com.m4ykey.stos.core.ui.ErrorItem
 import com.m4ykey.stos.core.ui.LoadingItem
@@ -47,6 +46,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import stos.shared.generated.resources.Res
+import stos.shared.generated.resources.back
 import stos.shared.generated.resources.ic_arrow_back
 import stos.shared.generated.resources.ic_arrow_up
 
@@ -96,13 +96,11 @@ fun SearchListScreen(
             }
         },
         navigation = {
-            IconButton(onClick = onBack) {
-                Icon(
-                    modifier = Modifier.size(24.dp),
-                    contentDescription = null,
-                    painter = painterResource(Res.drawable.ic_arrow_back)
-                )
-            }
+            ActionButton(
+                onClick = onBack,
+                text = Res.string.back,
+                icon = Res.drawable.ic_arrow_back
+            )
         },
         content = {
             SearchListScreenContent(

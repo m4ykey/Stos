@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -26,6 +25,7 @@ import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.m4ykey.stos.core.ui.ActionButton
 import com.m4ykey.stos.core.ui.AppScaffold
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -46,13 +46,11 @@ fun SearchScreen(
     AppScaffold(
         title = stringResource(Res.string.search),
         navigation = {
-            IconButton(onClick = onBack) {
-                Icon(
-                    contentDescription = stringResource(Res.string.back),
-                    painter = painterResource(Res.drawable.ic_arrow_back),
-                    modifier = Modifier.size(24.dp)
-                )
-            }
+            ActionButton(
+                onClick = onBack,
+                icon = Res.drawable.ic_arrow_back,
+                text = Res.string.back
+            )
         },
         content = {
             SearchScreenContent(
