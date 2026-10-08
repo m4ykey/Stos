@@ -77,8 +77,8 @@ class QuestionViewModel(
         }
     }
 
-    fun clearQuestionDetail() {
-        _questionDetailState.value = QuestionDetailState()
+    fun onRetryDetailState(questionId : Int) {
+        getQuestionDetail(questionId)
     }
 
     private val questionFlow : Flow<PagingData<QuestionItem>> = _questionState
