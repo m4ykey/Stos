@@ -63,7 +63,7 @@ fun QuestionItem(
                 )
             }
             Spacer(modifier = modifier.width(10.dp))
-            Column {
+            Column(modifier = Modifier.fillMaxWidth()) {
                 TextMarkdown(
                     text = item.owner.displayName,
                     fontSize = 14.sp,
@@ -84,7 +84,7 @@ fun QuestionItem(
             horizontalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             QuestionInfoItem(
-                text = getVoteCount(item.downVoteCount > 1, item).toInt(),
+                text = getVoteCount(isDownVote = item.downVoteCount > 1, item.downVoteCount, item.upVoteCount).toInt(),
                 icon = getArrowPosition(item.downVoteCount > 1)
             )
             QuestionInfoItem(
@@ -103,16 +103,16 @@ fun QuestionItem(
     }
 }
 
-private fun getVoteCount(isDownVote : Boolean, item : QuestionItem) : String {
+fun getVoteCount(isDownVote : Boolean, downVoteCount : Int, upVoteCount : Int) : String {
     return if (isDownVote) {
-        "-${item.downVoteCount}"
+        "-${downVoteCount}"
     } else {
-        "${item.upVoteCount}"
+        "$upVoteCount"
     }
 }
 
 @Composable
-private fun getArrowPosition(isDownVote: Boolean) : Painter {
+fun getArrowPosition(isDownVote: Boolean) : Painter {
     return if (isDownVote) {
         painterResource(Res.drawable.ic_arrow_down)
     } else {
