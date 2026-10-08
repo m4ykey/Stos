@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="hot">Gorące</string>
+    <string name="activity">Aktywność</string>
+    <string name="votes">Głosy</string>
+    <string name="creation">Utworzone</string>
+    <string name="week">Tygodniowe</string>
+    <string name="month">Miesięczne</string>
+    <string name="back">Wróć</string>
+    <string name="search">Szukaj</string>
+    <string name="retry">Ponów</string>
+    <string name="relevance">Podobne</string>
+    <string name="asked">Zapytano</string>
+</resources>
