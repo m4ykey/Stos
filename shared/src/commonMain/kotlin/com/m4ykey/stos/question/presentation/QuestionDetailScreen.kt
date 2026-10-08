@@ -1,9 +1,6 @@
 package com.m4ykey.stos.question.presentation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -20,6 +17,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.m4ykey.stos.core.ui.ActionButton
 import com.m4ykey.stos.core.ui.AppScaffold
+import com.m4ykey.stos.core.ui.ErrorItem
+import com.m4ykey.stos.core.ui.LoadingItem
 import com.m4ykey.text_markdown.TextMarkdown
 import org.koin.compose.viewmodel.koinViewModel
 import stos.shared.generated.resources.Res
@@ -63,32 +62,43 @@ fun QuestionDetailContent(
     listState : LazyListState,
     questionId: Int
 ) {
-    val item by viewModel.questionDetailState.collectAsStateWithLifecycle()
+    val state by viewModel.questionDetailState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(questionId) {
         viewModel.getQuestionDetail(questionId)
     }
 
-    LazyColumn(
-        modifier = Modifier
-            .padding(10.dp)
-            .fillMaxSize(),
-        state = listState
-    ) {
-        item {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
-            ) {
-                TextMarkdown(
-                    alignment = Alignment.TopStart,
-                    text = item.item?.title.orEmpty(),
-                    fontSize = 20.sp
-                )
-                TextMarkdown(
-                    alignment = Alignment.TopStart,
-                    text = item.item?.bodyMarkdown.orEmpty()
-                )
+    when {
+        state.isLoading -> {
+            LoadingItem()
+        }
+        state.error != null -> {
+            ErrorItem(message = state.error.toString(), onRetry = { viewModel.onRetryDetailState(questionId) })
+        }
+        else -> {
+            val item = state.item
+
+            if (item != null) {
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .fillMaxSize(),
+                    state = listState
+                ) {
+                    item {
+                        TextMarkdown(
+                            alignment = Alignment.TopStart,
+                            text = item.title,
+                            fontSize = 24.sp
+                        )
+                    }
+                    item {
+                        TextMarkdown(
+                            alignment = Alignment.TopStart,
+                            text = item.bodyMarkdown
+                        )
+                    }
+                }
             }
         }
     }
