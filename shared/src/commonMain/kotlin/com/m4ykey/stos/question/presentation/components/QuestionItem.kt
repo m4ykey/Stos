@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,13 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
 import com.m4ykey.stos.core.formatCreationDate
 import com.m4ykey.stos.core.formatReputation
 import com.m4ykey.stos.question.domain.model.QuestionItem
+import com.m4ykey.stos.user.presentation.components.UserCard
 import com.m4ykey.text_markdown.TextMarkdown
 import org.jetbrains.compose.resources.painterResource
 import stos.shared.generated.resources.Res
@@ -52,16 +49,7 @@ fun QuestionItem(
                 .clickable { onOwnerClick(item.owner.userId) },
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Card(
-                shape = CircleShape,
-                modifier = Modifier.size(32.dp)
-            ) {
-                AsyncImage(
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    model = item.owner.profileImage
-                )
-            }
+            UserCard(profileImage = item.owner.profileImage)
             Spacer(modifier = modifier.width(10.dp))
             Column(modifier = Modifier.fillMaxWidth()) {
                 TextMarkdown(

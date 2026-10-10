@@ -12,6 +12,8 @@ class StosApp : Application() {
         initModule {
             androidContext(this@StosApp)
         }
+
+        AndroidContext.initialize(this)
     }
 
 }

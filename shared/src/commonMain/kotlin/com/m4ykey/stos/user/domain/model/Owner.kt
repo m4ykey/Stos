@@ -1,4 +1,6 @@
-package com.m4ykey.stos.question.domain.model
+package com.m4ykey.stos.user.domain.model
+
+import com.m4ykey.stos.question.domain.model.BadgeCounts
 
 data class Owner(
     val badgeCounts : BadgeCounts,
