@@ -16,6 +16,7 @@ import com.m4ykey.stos.question.presentation.QuestionDetailScreen
 import com.m4ykey.stos.question.presentation.QuestionHomeScreen
 import com.m4ykey.stos.search.presentation.SearchListScreen
 import com.m4ykey.stos.search.presentation.SearchScreen
+import com.m4ykey.stos.user.presentation.UserScreen
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
@@ -30,6 +31,7 @@ fun AppNavigation(modifier : Modifier = Modifier) {
                     subclass(Route.SearchScreen::class, Route.SearchScreen.serializer())
                     subclass(Route.SearchList::class, Route.SearchList.serializer())
                     subclass(Route.QuestionDetail::class, Route.QuestionDetail.serializer())
+                    subclass(Route.UserScreen::class, Route.UserScreen.serializer())
                 }
             }
         },
@@ -69,7 +71,9 @@ fun AppNavigation(modifier : Modifier = Modifier) {
                     onSearchClick = {
                         navigateTo(Route.SearchScreen)
                     },
-                    onOwnerClick = {},
+                    onOwnerClick = { key ->
+                        navigateTo(Route.UserScreen(key))
+                    },
                     onQuestionClick = { key ->
                         navigateTo(Route.QuestionDetail(key))
                     }
@@ -77,7 +81,7 @@ fun AppNavigation(modifier : Modifier = Modifier) {
             }
             entry<Route.SearchScreen> {
                 SearchScreen(
-                    onBack = { navigateBack() },
+                    onBack = ::navigateBack,
                     onSearch = { key ->
                         navigateTo(Route.SearchList(key))
                     }
@@ -85,11 +89,11 @@ fun AppNavigation(modifier : Modifier = Modifier) {
             }
             entry<Route.SearchList> { key ->
                 SearchListScreen(
-                    onBack = {
-                        navigateBack()
-                    },
+                    onBack = ::navigateBack,
                     inTitle = key.inTitle,
-                    onOwnerClick = {},
+                    onOwnerClick = { userId ->
+                        navigateTo(Route.UserScreen(userId))
+                    },
                     onQuestionClick = { questionId ->
                         navigateTo(Route.QuestionDetail(questionId))
                     }
@@ -97,8 +101,14 @@ fun AppNavigation(modifier : Modifier = Modifier) {
             }
             entry<Route.QuestionDetail> { key ->
                 QuestionDetailScreen(
-                    onBack = { navigateBack() },
+                    onBack = ::navigateBack,
                     questionId = key.questionId
+                )
+            }
+            entry<Route.UserScreen> { key ->
+                UserScreen(
+                    userId = key.userId,
+                    onBack = ::navigateBack
                 )
             }
         }
