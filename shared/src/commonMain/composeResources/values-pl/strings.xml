@@ -11,4 +11,5 @@
     <string name="retry">Ponów</string>
     <string name="relevance">Podobne</string>
     <string name="asked">Zapytano</string>
+    <string name="link">Link</string>
 </resources>

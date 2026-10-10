@@ -45,6 +45,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.browser)
         }
         commonMain.dependencies {
             implementation(project(":text-markdown"))
@@ -72,7 +73,6 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.lifecycle.viewmodel.navigation3)
-            implementation(libs.kotlinx.datetime)
         }
         jvmMain.dependencies {
             implementation(libs.ktor.client.okhttp)
