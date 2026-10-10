@@ -1,13 +1,11 @@
 package com.m4ykey.stos.question.mapper
 
-import com.m4ykey.stos.question.domain.model.BadgeCounts
-import com.m4ykey.stos.question.domain.model.Owner
 import com.m4ykey.stos.question.domain.model.QuestionDetail
 import com.m4ykey.stos.question.domain.model.QuestionItem
-import com.m4ykey.stos.question.network.model.BadgeCountsDto
-import com.m4ykey.stos.question.network.model.OwnerDto
 import com.m4ykey.stos.question.network.model.QuestionDetailDto
 import com.m4ykey.stos.question.network.model.QuestionItemDto
+import com.m4ykey.stos.user.domain.model.Owner
+import com.m4ykey.stos.user.mapper.toOwner
 
 fun QuestionDetailDto.toQuestionDetail() : QuestionDetail {
     return QuestionDetail(
@@ -24,25 +22,6 @@ fun QuestionDetailDto.toQuestionDetail() : QuestionDetail {
         lastActivityDate = lastActivityDate ?: 0,
         owner = owner?.toOwner() ?: Owner.EMPTY,
         tags = tags ?: emptyList()
-    )
-}
-
-fun BadgeCountsDto.toBadgeCounts() : BadgeCounts {
-    return BadgeCounts(
-        gold = gold ?: 0,
-        bronze = bronze ?: 0,
-        silver = silver ?: 0
-    )
-}
-
-fun OwnerDto.toOwner() : Owner {
-    return Owner(
-        displayName = displayName.orEmpty(),
-        link = link.orEmpty(),
-        profileImage = profileImage.orEmpty(),
-        reputation = reputation ?: 0,
-        userId = userId ?: 0,
-        badgeCounts = badgeCounts?.toBadgeCounts() ?: BadgeCounts.EMPTY
     )
 }
 

@@ -30,7 +30,7 @@ class QuestionRepositoryImpl(
     }
 
     override suspend fun getQuestionById(questionId: Int): Flow<ApiResult<QuestionDetail>> {
-        return flow<ApiResult<QuestionDetail>> {
+        return flow {
             val result = safeApi { service.getQuestionById(id = questionId) }
 
             when (result) {
